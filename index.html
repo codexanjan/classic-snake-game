@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Classic Snake with five game modes, adjustable speed, food counters, and keyboard or touch controls.">
+  <meta name="theme-color" content="#f6f7f9">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Snake · A classic game with five modes">
+  <meta property="og:description" content="Play Classic, Wrap, Maze, Time Attack, or Zen. Set your own speed and chase a new high score.">
+  <title>Snake</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="light">
+  <main class="app">
+    <header class="topbar">
+      <div class="brand"><div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><h1>Snake</h1></div>
+      <div class="header-tools"><button class="icon-btn" id="soundButton" aria-label="Enable sound" aria-pressed="false" title="Enable sound"><span data-lucide="volume-x">♪</span></button><button class="icon-btn" id="helpButton" aria-label="Open controls" title="Controls"><span data-lucide="circle-help">?</span></button></div>
+    </header>
+    <div class="workspace">
+      <section class="play-area" aria-label="Game">
+        <div class="stats">
+          <div class="stat"><span>Score</span><strong id="score">0</strong></div>
+          <div class="stat food"><span>Food eaten</span><strong id="eaten">0</strong></div>
+          <div class="stat"><span>Best · mode</span><strong id="best">0</strong></div>
+          <div class="stat"><span id="timeLabel">Time</span><strong id="timer">0:00</strong></div>
+        </div>
+        <div class="board-wrap" id="boardWrap">
+          <canvas id="game" width="800" height="800" aria-label="Snake game board" tabindex="0"></canvas>
+          <div class="overlay" id="overlay">
+            <div class="overlay-content"><h2 id="overlayTitle">Classic</h2><p id="overlayText">Eat food and grow. Avoid the walls and your own tail.</p><button class="btn primary" id="overlayAction"><span data-lucide="play">▶</span><span id="actionText">Play Classic</span></button></div>
+          </div>
+        </div>
+        <div class="underboard"><span class="status" id="status" aria-live="polite">Ready to play</span><div class="run-tools"><button class="icon-btn" id="pauseButton" title="Pause" aria-label="Pause" disabled><span data-lucide="pause">Ⅱ</span></button><button class="icon-btn" id="restartButton" title="Restart" aria-label="Restart"><span data-lucide="rotate-ccw">↺</span></button></div></div>
+        <div class="touch-pad" aria-label="Direction controls"><button class="icon-btn up" data-dir="up" aria-label="Move up" title="Move up"><span data-lucide="arrow-up">↑</span></button><button class="icon-btn left" data-dir="left" aria-label="Move left" title="Move left"><span data-lucide="arrow-left">←</span></button><button class="icon-btn down" data-dir="down" aria-label="Move down" title="Move down"><span data-lucide="arrow-down">↓</span></button><button class="icon-btn right" data-dir="right" aria-label="Move right" title="Move right"><span data-lucide="arrow-right">→</span></button></div>
+        <div class="record"><span>Total food eaten <strong id="totalEaten">0</strong></span><span>Longest snake <strong id="longest">3</strong></span><span>Length <strong id="length">3</strong></span></div>
+      </section>
+      <aside class="sidebar" aria-label="Game settings">
+        <section class="settings-section">
+          <h2 class="section-title">Game setup</h2>
+          <div class="field"><label for="mode">Game mode</label><select id="mode"><option value="classic">Classic</option><option value="wrap">Wrap</option><option value="maze">Maze</option><option value="sprint">Time Attack</option><option value="zen">Zen</option></select><p class="rule" id="modeRule"></p></div>
+          <div class="field"><div class="speed-heading"><label for="speed">Speed</label><output id="speedValue" for="speed">8 / sec</output></div><input type="range" id="speed" min="3" max="18" step="1" value="8"><div class="range-labels"><span>Slow</span><span>Fast</span></div><div class="presets" aria-label="Speed presets"><button data-speed="4" aria-pressed="false">Relaxed</button><button data-speed="8" aria-pressed="true">Normal</button><button data-speed="14" aria-pressed="false">Fast</button></div></div>
+          <div class="field"><label for="boardSize">Board size</label><select id="boardSize"><option value="16">Small · 16 × 16</option><option value="20" selected>Medium · 20 × 20</option><option value="24">Large · 24 × 24</option></select></div>
+          <div class="field"><label for="foodCount">Food on board</label><select id="foodCount"><option value="1">1 item</option><option value="3">3 items</option><option value="5">5 items</option></select></div>
+        </section>
+        <section class="settings-section preferences">
+          <h2 class="section-title">Preferences</h2>
+          <div class="field"><span class="row-label">Appearance</span><div class="themes"><button class="theme" data-theme="light" aria-label="Light theme" title="Light" aria-pressed="true"></button><button class="theme" data-theme="dark" aria-label="Dark theme" title="Dark" aria-pressed="false"></button><button class="theme" data-theme="blue" aria-label="Blue theme" title="Blue" aria-pressed="false"></button></div></div>
+          <label class="check-row" for="sound">Sound<input type="checkbox" id="sound"></label>
+          <label class="check-row" for="gridLines">Grid lines<input type="checkbox" id="gridLines" checked></label>
+          <label class="check-row" for="effects">Food effects<input type="checkbox" id="effects" checked></label>
+          <label class="check-row" for="autoSpeed">Gradual speed-up<input type="checkbox" id="autoSpeed"></label>
+        </section>
+        <section class="settings-section help-section"><details id="help"><summary>Controls &amp; rules</summary><div class="help-grid"><span>Move</span><kbd>↑ ↓ ← → / WASD</kbd><span>Pause / resume</span><kbd>Space / P</kbd><span>Restart</span><kbd>R</kbd><span>Touch</span><kbd>Swipe / arrows</kbd><span>Each food</span><kbd>10 points</kbd><span>Speed-up</span><kbd>+1 / sec per 5 eaten</kbd></div><p class="rule" style="margin-top:14px">Mode and board-size changes begin a new round. Speed and food quantity can change during play. Time Attack lasts 60 seconds of active play.</p></details></section>
+      </aside>
+    </div>
+    <footer>Build with ❤️ by Anjan Shetty</footer>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
