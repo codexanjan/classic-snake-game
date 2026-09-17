@@ -1,6 +1,6 @@
 # Snake
 
-![Illustrated Snake game board](assets/cover.png)
+![Illustrated Snake game board](assets/cover.jpg)
 
 A clean, quick-to-play Snake game for desktop and mobile. Choose a mode, set the pace, and play instantly in the browser.
 
